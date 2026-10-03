@@ -39,10 +39,7 @@ function OpportunityCard({ opportunity }) {
 
       {/* Meta details (Location, Date, Prize) */}
       <div className="space-y-2 mb-6">
-        <div className="flex items-center text-sm text-gray-600">
-          <MapPin className="h-4 w-4 mr-2 text-gray-400" />
-          {opportunity.location.city}, {opportunity.location.state}
-        </div>
+
         <div className="flex items-center text-sm text-gray-600">
           <Calendar className="h-4 w-4 mr-2 text-gray-400" />
           Apply by {opportunity.deadline}
@@ -64,7 +61,7 @@ function OpportunityCard({ opportunity }) {
 
       {/* Action Button */}
       <Link
-        to={`/opportunities/${opportunity.id}`}
+        to={`/opportunities/${opportunity._id || opportunity.id}`}
         className="w-full flex items-center justify-center py-2.5 bg-gray-50 hover:bg-primary hover:text-white text-gray-700 font-medium rounded-xl transition-colors mt-auto border border-gray-200 hover:border-primary"
       >
         View Details

@@ -9,10 +9,16 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Route Files
+const opportunityRoutes = require('./routes/opportunityRoutes');
+
 // Basic Route for testing
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Welcome to the Local Opportunity Intelligence System!' });
 });
+
+// Mount Routes
+app.use('/api/opportunities', opportunityRoutes);
 
 // MongoDB Connection
 const PORT = process.env.PORT || 5000;

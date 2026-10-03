@@ -7,7 +7,7 @@ function Navbar() {
     <nav className="bg-white shadow-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
-          
+
           {/* Logo Section */}
           <div className="flex-shrink-0 flex items-center">
             <Link to="/" className="flex items-center gap-2">
@@ -31,7 +31,7 @@ function Navbar() {
             <button className="text-gray-600 hover:text-primary p-2">
               <User className="h-5 w-5" />
             </button>
-            <button className="bg-primary text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-600 transition-colors shadow-sm">
+            <button className="inline-flex items-center justify-center px-8 py-3 text-base font-medium rounded-xl text-gray bg-primary hover:bg-blue-600 transition-all shadow-lg hover:shadow-blue-500/30">
               Sign In
             </button>
           </div>

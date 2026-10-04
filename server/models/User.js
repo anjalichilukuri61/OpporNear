@@ -31,6 +31,13 @@ const userSchema = new mongoose.Schema({
   graduationYear: Number,
   skills: [String],
   interestes: [String],
+  currentLocation: String,
+  preferredMode: {
+    type: String,
+    enum: ['Online', 'Offline', 'Hybrid', 'Any'],
+    default: 'Any'
+  },
+  preferredCategories: [String],
   createdAt: {
     type: Date,
     default: Date.now

@@ -26,16 +26,16 @@ This document outlines the step-by-step development phases for the Local Opportu
 - ✅ Build CRUD (Create, Read, Update, Delete) operations for Opportunities.
 - ✅ *Note: We will build APIs for Categories and Users naturally as we create their schemas in Phase 5.*
 
-## Phase 5: MongoDB Schemas (✅ In Progress)
-- ⏳ Create robust Mongoose database models for: Opportunity, User, Organization, etc.
+## Phase 5: MongoDB Schemas (✅ Completed)
+- ✅ Create robust Mongoose database models for: Opportunity, User, Organization, etc.
 
-## Phase 6: Authentication & Security
-- Implement User Registration and Login.
-- Add JWT (JSON Web Tokens) and password hashing (bcrypt).
-- Set up protected routes and role-based access.
+## Phase 6: Authentication & Security (✅ Completed)
+- ✅ Implement User Registration and Login.
+- ✅ Add JWT (JSON Web Tokens) and password hashing (bcrypt).
+- ✅ Set up protected routes and role-based access.
 
-## Phase 7: Student Profile
-- Build the profile completion flow (Skills, Interests, Education, Location, and Preferences).
+## Phase 7: Student Profile (✅ In Progress)
+- ⏳ Build the profile completion flow (Skills, Interests, Education, Location, and Preferences).
 
 ## Phase 8: Search & Filter System
 - Implement deep filtering (Search, Category, Location, Mode, Date, Deadline, Skills).

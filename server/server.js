@@ -11,6 +11,7 @@ app.use(express.json());
 
 // Route Files
 const opportunityRoutes = require('./routes/opportunityRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 // Basic Route for testing
 app.get('/api/health', (req, res) => {
@@ -19,6 +20,7 @@ app.get('/api/health', (req, res) => {
 
 // Mount Routes
 app.use('/api/opportunities', opportunityRoutes);
+app.use('/api/auth', authRoutes);
 
 // MongoDB Connection
 const PORT = process.env.PORT || 5000;

@@ -37,13 +37,53 @@ function OpportunityCard({ opportunity }) {
         {opportunity.description}
       </p>
 
-      {/* Meta details (Location, Date, Prize) */}
+      {/* Meta details (Date, Prize, Duration) */}
       <div className="space-y-2 mb-6">
+        {opportunity.category === 'Hackathon' && opportunity.eventDate && (
+          <div className="flex items-center text-sm text-gray-600">
+            <Calendar className="h-4 w-4 mr-2 text-gray-400" />
+            Hackathon Date: {new Date(opportunity.eventDate).toLocaleDateString()}
+          </div>
+        )}
+        {opportunity.category === 'Workshop' && opportunity.eventDate && (
+          <div className="flex items-center text-sm text-gray-600">
+            <Calendar className="h-4 w-4 mr-2 text-gray-400" />
+            Workshop Date: {new Date(opportunity.eventDate).toLocaleDateString()}
+          </div>
+        )}
+        {opportunity.category === 'Scholarship' && opportunity.applicationDeadline && (
+          <div className="flex items-center text-sm text-gray-600">
+            <Calendar className="h-4 w-4 mr-2 text-gray-400" />
+            Last Date to Apply: {new Date(opportunity.applicationDeadline).toLocaleDateString()}
+          </div>
+        )}
+        {opportunity.category === 'Training' && opportunity.trainingDuration && (
+          <div className="flex items-center text-sm text-gray-600">
+            <Calendar className="h-4 w-4 mr-2 text-gray-400" />
+            Duration: {opportunity.trainingDuration}
+          </div>
+        )}
+        {/* Fallback for categories without specific fields or older data */}
+        {!['Hackathon', 'Workshop', 'Scholarship', 'Training'].includes(opportunity.category) && opportunity.deadline && (
+          <div className="flex items-center text-sm text-gray-600">
+            <Calendar className="h-4 w-4 mr-2 text-gray-400" />
+            Deadline: {opportunity.deadline}
+          </div>
+        )}
+        {/* Fallback for seeded data that has deadline but not eventDate */}
+        {['Hackathon', 'Workshop'].includes(opportunity.category) && !opportunity.eventDate && opportunity.deadline && (
+          <div className="flex items-center text-sm text-gray-600">
+            <Calendar className="h-4 w-4 mr-2 text-gray-400" />
+            Date: {opportunity.deadline}
+          </div>
+        )}
+        {opportunity.category === 'Scholarship' && !opportunity.applicationDeadline && opportunity.deadline && (
+          <div className="flex items-center text-sm text-gray-600">
+            <Calendar className="h-4 w-4 mr-2 text-gray-400" />
+            Last Date to Apply: {opportunity.deadline}
+          </div>
+        )}
 
-        <div className="flex items-center text-sm text-gray-600">
-          <Calendar className="h-4 w-4 mr-2 text-gray-400" />
-          Apply by {opportunity.deadline}
-        </div>
         <div className="flex items-center text-sm font-medium text-green-600">
           <Trophy className="h-4 w-4 mr-2 text-green-500" />
           {opportunity.prize}
@@ -60,13 +100,25 @@ function OpportunityCard({ opportunity }) {
       </div>
 
       {/* Action Button */}
-      <Link
-        to={`/opportunities/${opportunity._id || opportunity.id}`}
-        className="w-full flex items-center justify-center py-2.5 bg-gray-50 hover:bg-primary hover:text-white text-gray-700 font-medium rounded-xl transition-colors mt-auto border border-gray-200 hover:border-primary"
-      >
-        View Details
-        <ArrowRight className="ml-2 h-4 w-4" />
-      </Link>
+      {opportunity.url ? (
+        <a
+          href={opportunity.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-full flex items-center justify-center py-2.5 bg-blue-50 text-blue-700 hover:bg-primary hover:text-white font-medium rounded-xl transition-colors mt-auto border border-blue-200"
+        >
+          Apply Now (External)
+          <ArrowRight className="ml-2 h-4 w-4" />
+        </a>
+      ) : (
+        <Link
+          to={`/opportunities/${opportunity._id || opportunity.id}`}
+          className="w-full flex items-center justify-center py-2.5 bg-gray-50 hover:bg-primary hover:text-white text-gray-700 font-medium rounded-xl transition-colors mt-auto border border-gray-200 hover:border-primary"
+        >
+          View Details
+          <ArrowRight className="ml-2 h-4 w-4" />
+        </Link>
+      )}
     </div>
   );
 }

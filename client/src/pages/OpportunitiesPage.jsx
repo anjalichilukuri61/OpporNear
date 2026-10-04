@@ -8,16 +8,39 @@ function OpportunitiesPage() {
   const [opportunities, setOpportunities] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // 2. Fetch real data from our Node.js Backend!
+  // 2. Fetch data from BOTH MongoDB and Remotive API!
   useEffect(() => {
     const fetchOpportunities = async () => {
       try {
-        // We use axios to make an HTTP GET request to our API
-        const response = await axios.get('http://localhost:5000/api/opportunities');
+        // A. Fetch Local MongoDB Data
+        const dbRes = await axios.get('http://localhost:5000/api/opportunities');
+        const dbData = dbRes.data.data.map(opp => ({
+          ...opp,
+          deadline: opp.deadline ? new Date(opp.deadline).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Rolling'
+        }));
 
-        // Our API returns an object like { success: true, data: [...] }
-        // So we grab the .data array and save it to our state!
-        setOpportunities(response.data.data);
+        // B. Fetch Live Remotive Data
+        let liveData = [];
+        try {
+          const apiRes = await axios.get('https://remotive.com/api/remote-jobs?limit=10');
+          liveData = apiRes.data.jobs.map(job => ({
+            _id: job.id.toString(), // Convert ID to string
+            title: job.title,
+            category: 'Internship',
+            mode: 'Online',
+            organizerName: job.company_name,
+            description: job.description.replace(/<[^>]*>?/gm, '').substring(0, 120) + '...',
+            deadline: 'Apply ASAP',
+            prize: job.salary ? job.salary : 'Salary Undisclosed',
+            skills: job.tags && job.tags.length > 0 ? job.tags.slice(0, 3) : ['Tech', 'Remote'],
+            url: job.url // The real application link!
+          }));
+        } catch (apiErr) {
+          console.error("Remotive API failed, skipping live data", apiErr);
+        }
+
+        // C. Combine them together! MongoDB first, then Live Jobs!
+        setOpportunities([...dbData, ...liveData]);
         setIsLoading(false);
       } catch (error) {
         console.error("Error fetching opportunities:", error);

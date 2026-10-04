@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { Compass, User } from 'lucide-react';
+import { Compass, User, LogOut } from 'lucide-react';
+import { AuthContext } from '../context/AuthContext';
 
 function Navbar() {
+  const { user, logout } = useContext(AuthContext);
+
   return (
     <nav className="bg-white shadow-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -27,14 +30,40 @@ function Navbar() {
           </div>
 
           {/* User Actions */}
-          <div className="flex items-center space-x-4">
-            <button className="text-gray-600 hover:text-primary p-2">
-              <User className="h-5 w-5" />
-            </button>
-            <button className="inline-flex items-center justify-center px-8 py-3 text-base font-medium rounded-xl text-gray bg-primary hover:bg-blue-600 transition-all shadow-lg hover:shadow-blue-500/30">
-              Sign In
-            </button>
-          </div>
+          {user ? (
+            <div className="flex items-center space-x-6">
+              {user.role === 'organizer' ? (
+                <Link to="/organizer/dashboard" className="flex items-center text-gray-700 hover:text-primary transition-colors cursor-pointer">
+                  <User className="h-5 w-5 mr-2 text-primary" />
+                  <span className="font-medium">Organizer Dashboard</span>
+                </Link>
+              ) : (
+                <Link to="/profile" className="flex items-center text-gray-700 hover:text-primary transition-colors cursor-pointer">
+                  <User className="h-5 w-5 mr-2 text-primary" />
+                  <span className="font-medium">Welcome, {user.name}</span>
+                </Link>
+              )}
+              <button
+                onClick={logout}
+                className="flex items-center text-gray-500 hover:text-red-500 transition-colors"
+              >
+                <LogOut className="h-5 w-5 mr-1" />
+                Logout
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center space-x-4">
+              <Link to="/login" className="text-gray-600 hover:text-primary font-medium">
+                Sign In
+              </Link>
+              <Link
+                to="/register"
+                className="inline-flex items-center justify-center px-6 py-2.5 text-sm font-medium rounded-xl text-gray bg-primary hover:bg-blue-600 transition-all shadow-md hover:shadow-blue-500/30"
+              >
+                Register
+              </Link>
+            </div>
+          )}
 
         </div>
       </div>

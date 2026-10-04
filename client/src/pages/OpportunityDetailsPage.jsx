@@ -1,14 +1,46 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { mockOpportunities } from '../data/mockData';
+import axios from 'axios';
 import { ArrowLeft, MapPin, Calendar, Users, Trophy } from 'lucide-react';
 
 function OpportunityDetailsPage() {
-  // Get the 'id' parameter from the URL
   const { id } = useParams();
+  const [opportunity, setOpportunity] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Find the matching opportunity in our mock data
-  const opportunity = mockOpportunities.find(opp => opp.id === id);
+  // Fetch the real Opportunity from the MongoDB Database!
+  useEffect(() => {
+    const fetchOpportunity = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/api/opportunities/${id}`);
+        
+        // Format the date just like we did on the Discover page
+        const data = response.data.data;
+        if (data.deadline) {
+          data.deadline = new Date(data.deadline).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        } else {
+          data.deadline = 'Rolling';
+        }
+
+        setOpportunity(data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching opportunity:", error);
+        setIsLoading(false);
+      }
+    };
+
+    fetchOpportunity();
+  }, [id]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-[50vh] flex flex-col items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mb-4"></div>
+        <p className="text-gray-500 font-medium">Loading details...</p>
+      </div>
+    );
+  }
 
   if (!opportunity) {
     return (
@@ -84,10 +116,16 @@ function OpportunityDetailsPage() {
 
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-100">
-          <button className="flex-1 bg-primary text-gray-700 py-4 rounded-xl font-bold text-lg hover:bg-blue-600 transition-colors shadow-lg shadow-blue-500/30">
-            Apply Now (External)
+          <button 
+            onClick={() => window.open(opportunity.url || 'https://google.com', '_blank')}
+            className="flex-1 bg-primary text-gray-700 py-4 rounded-xl font-bold text-lg hover:bg-blue-600 transition-colors shadow-lg shadow-blue-500/30"
+          >
+            {opportunity.url ? 'Apply Now (External)' : 'Apply Now'}
           </button>
-          <button className="px-8 py-4 bg-white border-2 border-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-50 transition-colors">
+          <button 
+            onClick={() => alert('Opportunity saved to your profile! (Coming soon in Phase 11)')}
+            className="px-8 py-4 bg-white border-2 border-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-50 transition-colors"
+          >
             Save for later
           </button>
         </div>

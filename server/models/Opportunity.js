@@ -41,8 +41,20 @@ const opportunitySchema = new mongoose.Schema({
   deadline: {
     type: Date
   },
+  eventDate: {
+    type: Date
+  },
+  applicationDeadline: {
+    type: Date
+  },
+  trainingDuration: {
+    type: String
+  },
   prize: {
     type: String
+  },
+  url: {
+    type: String // We need this to store real application links!
   },
   teamSize: {
     type: Number,

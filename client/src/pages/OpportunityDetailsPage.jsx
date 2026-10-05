@@ -7,6 +7,28 @@ function OpportunityDetailsPage() {
   const { id } = useParams();
   const [opportunity, setOpportunity] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isSaved, setIsSaved] = useState(false);
+
+  // Check if it's already saved when the page loads
+  useEffect(() => {
+    const savedList = JSON.parse(localStorage.getItem('savedOpportunities') || '[]');
+    if (savedList.includes(id)) {
+      setIsSaved(true);
+    }
+  }, [id]);
+
+  // Handle saving/unsaving
+  const handleSave = () => {
+    let savedList = JSON.parse(localStorage.getItem('savedOpportunities') || '[]');
+    if (isSaved) {
+      savedList = savedList.filter(savedId => savedId !== id);
+      setIsSaved(false);
+    } else {
+      if (!savedList.includes(id)) savedList.push(id);
+      setIsSaved(true);
+    }
+    localStorage.setItem('savedOpportunities', JSON.stringify(savedList));
+  };
 
   // Fetch the real Opportunity from the MongoDB Database!
   useEffect(() => {
@@ -123,10 +145,14 @@ function OpportunityDetailsPage() {
             {opportunity.url ? 'Apply Now (External)' : 'Apply Now'}
           </button>
           <button 
-            onClick={() => alert('Opportunity saved to your profile! (Coming soon in Phase 11)')}
-            className="px-8 py-4 bg-white border-2 border-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-50 transition-colors"
+            onClick={handleSave}
+            className={`px-8 py-4 border-2 font-bold rounded-xl transition-colors ${
+              isSaved 
+                ? 'bg-green-50 border-green-200 text-green-700 hover:bg-green-100' 
+                : 'bg-white border-gray-200 text-gray-700 hover:bg-gray-50'
+            }`}
           >
-            Save for later
+            {isSaved ? '❤️ Saved' : 'Save for later'}
           </button>
         </div>
 

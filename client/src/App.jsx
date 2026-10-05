@@ -8,6 +8,7 @@ import LoginPage from './pages/LoginPage';
 import ProfilePage from './pages/ProfilePage';
 import OrganizerDashboard from './pages/OrganizerDashboard';
 import PostOpportunityPage from './pages/PostOpportunityPage';
+import SavedOpportunitiesPage from './pages/SavedOpportunitiesPage';
 import { AuthProvider } from './context/AuthContext';
 
 function App() {
@@ -25,9 +26,9 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/saved" element={<SavedOpportunitiesPage />} />
           <Route path="/organizer/dashboard" element={<OrganizerDashboard />} />
           <Route path="/organizer/create" element={<PostOpportunityPage />} />
-          <Route path="/radar" element={<div className="p-10 text-center text-xl">Nearby Radar (Coming Soon!)</div>} />
         </Routes>
       </div>
       </BrowserRouter>

@@ -30,6 +30,10 @@ mongoose
   .connect(MONGODB_URI)
   .then(() => {
     console.log('✅ Connected to MongoDB');
+    
+    // Initialize the Telegram Radar Bot
+    require('./telegramBot');
+
     app.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);
     });

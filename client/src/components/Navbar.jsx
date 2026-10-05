@@ -1,10 +1,16 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
-import { Compass, User, LogOut } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Compass, User, LogOut, Heart } from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
 
 function Navbar() {
   const { user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
   return (
     <nav className="bg-white shadow-sm sticky top-0 z-50">
@@ -20,13 +26,18 @@ function Navbar() {
           </div>
 
           {/* Navigation Links */}
-          <div className="hidden md:flex space-x-8">
-            <Link to="/opportunities" className="text-gray-600 hover:text-primary px-3 py-2 rounded-md font-medium transition-colors">
-              Discover
-            </Link>
-            <Link to="/radar" className="text-gray-600 hover:text-primary px-3 py-2 rounded-md font-medium transition-colors">
-              Nearby Radar
-            </Link>
+          <div className="hidden md:flex space-x-8 items-center">
+            {user && (
+              <>
+                <Link to="/opportunities" className="text-gray-600 hover:text-primary px-3 py-2 rounded-md font-medium transition-colors">
+                  Discover
+                </Link>
+                <Link to="/saved" className="flex items-center text-gray-600 hover:text-red-500 px-3 py-2 rounded-md font-medium transition-colors">
+                  <Heart className="h-4 w-4 mr-1.5" />
+                  Saved
+                </Link>
+              </>
+            )}
           </div>
 
           {/* User Actions */}
@@ -44,7 +55,7 @@ function Navbar() {
                 </Link>
               )}
               <button
-                onClick={logout}
+                onClick={handleLogout}
                 className="flex items-center text-gray-500 hover:text-red-500 transition-colors"
               >
                 <LogOut className="h-5 w-5 mr-1" />

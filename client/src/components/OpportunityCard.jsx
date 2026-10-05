@@ -18,9 +18,16 @@ function OpportunityCard({ opportunity }) {
 
       {/* Header (Category & Mode) */}
       <div className="flex justify-between items-start mb-4">
-        <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getCategoryColor(opportunity.category)}`}>
-          {opportunity.category}
-        </span>
+        <div className="flex flex-wrap gap-2">
+          <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getCategoryColor(opportunity.category)}`}>
+            {opportunity.category}
+          </span>
+          {opportunity.matchScore > 0 && (
+            <span className="px-2 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700 flex items-center border border-green-200 shadow-sm">
+               ⭐ {opportunity.matchScore}% Match
+            </span>
+          )}
+        </div>
         <span className="text-xs font-medium text-gray-500 bg-gray-50 px-2 py-1 rounded border border-gray-200">
           {opportunity.mode}
         </span>
@@ -33,12 +40,30 @@ function OpportunityCard({ opportunity }) {
       <p className="text-sm text-gray-500 mb-4">{opportunity.organizerName}</p>
 
       {/* Description */}
-      <p className="text-gray-600 text-sm mb-6 line-clamp-2 flex-grow">
+      <p className="text-gray-600 text-sm mb-4 line-clamp-2 flex-grow">
         {opportunity.description}
       </p>
 
-      {/* Meta details (Date, Prize, Duration) */}
+      {/* Recommendation Engine Box */}
+      {opportunity.matchReasons && opportunity.matchReasons.length > 0 && (
+        <div className="bg-green-50/70 rounded-lg p-3 mb-4 border border-green-100">
+          <p className="text-xs text-green-800 font-bold mb-1">✨ Why we recommend this:</p>
+          <ul className="list-disc pl-4 text-xs text-green-700 space-y-0.5">
+            {opportunity.matchReasons.map((reason, idx) => (
+              <li key={idx}>{reason}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* Meta details (Date, Location, Prize) */}
       <div className="space-y-2 mb-6">
+        {(opportunity.mode === 'Offline' || opportunity.mode === 'Hybrid') && opportunity.location?.city && (
+          <div className="flex items-center text-sm text-gray-700 font-medium">
+            <MapPin className="h-4 w-4 mr-2 text-primary" />
+            {opportunity.location.city}{opportunity.location.state ? `, ${opportunity.location.state}` : ''}
+          </div>
+        )}
         {opportunity.category === 'Hackathon' && opportunity.eventDate && (
           <div className="flex items-center text-sm text-gray-600">
             <Calendar className="h-4 w-4 mr-2 text-gray-400" />

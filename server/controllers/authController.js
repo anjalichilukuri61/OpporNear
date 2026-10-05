@@ -32,15 +32,13 @@ exports.register = async (req, res) => {
       expiresIn: '30d' // Token expires in 30 days
     });
 
+    const userResponse = user.toObject();
+    delete userResponse.password;
+
     res.status(201).json({
       success: true,
       token,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role
-      }
+      user: userResponse
     });
 
   } catch (error) {
@@ -73,15 +71,13 @@ exports.login = async (req, res) => {
       expiresIn: '30d'
     });
 
+    const userResponse = user.toObject();
+    delete userResponse.password;
+
     res.status(200).json({
       success: true,
       token,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role
-      }
+      user: userResponse
     });
 
   } catch (error) {

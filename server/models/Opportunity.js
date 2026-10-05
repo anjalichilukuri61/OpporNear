@@ -18,7 +18,7 @@ const opportunitySchema = new mongoose.Schema({
     enum: [
       'Hackathon', 'Internship', 'Scholarship', 'Workshop',
       'Training', 'Coding Contest', 'Competition', 'Seminar',
-      'Conference', 'Research Opportunity', 'Placement Drive', 'Other'
+      'Conference', 'Research Opportunity', 'Placement Drive', 'Job', 'Other'
     ] // enum ensures the category must be one of these exact strings
   },
   organizerName: {

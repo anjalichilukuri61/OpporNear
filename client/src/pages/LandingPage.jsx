@@ -16,7 +16,7 @@ function LandingPage() {
         <h1 className="text-5xl md:text-6xl font-extrabold text-dark tracking-tight mb-6">
           Discover opportunities. <br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
-            Don't miss what's near you.
+            Don't miss opportunities what's near you.
           </span>
         </h1>
 

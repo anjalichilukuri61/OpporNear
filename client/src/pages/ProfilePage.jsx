@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import axios from 'axios';
 import api from '../api';
 import { AuthContext } from '../context/AuthContext';
 
@@ -33,20 +34,32 @@ function ProfilePage() {
       navigator.geolocation.getCurrentPosition(
         async (position) => {
           try {
-            // Convert Latitude/Longitude into a City Name using a free reverse geocoding API
             const { latitude, longitude } = position.coords;
-            const res = await axios.get(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+            // Nominatim reverse geocoding with fetch & custom headers
+            const res = await fetch(
+              `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=10&addressdetails=1`,
+              {
+                headers: {
+                  'Accept-Language': 'en'
+                }
+              }
+            );
+            const data = await res.json();
             
-            // Extract city (could be classified as town, village, or county depending on the area)
-            const cityOrTown = res.data.address.city || res.data.address.town || res.data.address.village || res.data.address.county || '';
-            const state = res.data.address.state || '';
+            const addr = data.address || {};
+            const cityOrTown = addr.city || addr.town || addr.municipality || addr.village || addr.suburb || addr.county || addr.state_district || '';
+            const state = addr.state || '';
             
-            // Combine them neatly! (e.g. "Vijayawada, Andhra Pradesh")
             const formattedLocation = [cityOrTown, state].filter(Boolean).join(', ');
             
-            setFormData({ ...formData, currentLocation: formattedLocation });
-            setMessage('Location detected successfully!');
+            if (formattedLocation) {
+              setFormData((prev) => ({ ...prev, currentLocation: formattedLocation }));
+              setMessage('Location detected successfully!');
+            } else {
+              setMessage('Could not determine city name from GPS coordinates.');
+            }
           } catch (err) {
+            console.error("Geocoding error:", err);
             setMessage('Could not convert GPS to city name.');
           }
         },

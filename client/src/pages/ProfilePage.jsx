@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { AuthContext } from '../context/AuthContext';
 
 function ProfilePage() {
@@ -77,8 +77,8 @@ function ProfilePage() {
       const token = localStorage.getItem('token');
 
       // 3. Send the PUT request with the token in the Headers
-      const response = await axios.put(
-        'http://localhost:5000/api/auth/profile',
+      const response = await api.put(
+        '/api/auth/profile',
         updateData,
         {
           headers: {

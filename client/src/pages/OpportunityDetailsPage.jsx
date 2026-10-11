@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api';
 import { ArrowLeft, MapPin, Calendar, Users, Trophy } from 'lucide-react';
 
 function OpportunityDetailsPage() {
@@ -34,7 +34,7 @@ function OpportunityDetailsPage() {
   useEffect(() => {
     const fetchOpportunity = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/opportunities/${id}`);
+        const response = await api.get(`/api/opportunities/${id}`);
         
         // Format the date just like we did on the Discover page
         const data = response.data.data;

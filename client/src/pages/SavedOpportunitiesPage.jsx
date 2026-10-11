@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { Link } from 'react-router-dom';
 import OpportunityCard from '../components/OpportunityCard';
 import { Heart } from 'lucide-react';
@@ -18,7 +18,7 @@ function SavedOpportunitiesPage() {
         }
 
         // Fetch all local opportunities and filter the ones we saved
-        const res = await axios.get('http://localhost:5000/api/opportunities');
+        const res = await api.get('/api/opportunities');
         const allOpps = res.data.data;
         
         const filtered = allOpps.filter(opp => savedList.includes(opp._id));

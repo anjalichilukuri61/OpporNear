@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { ArrowLeft } from 'lucide-react';
@@ -33,7 +33,7 @@ function PostOpportunityPage() {
         location: { city: formData.city, state: formData.state }
       };
 
-      await axios.post('http://localhost:5000/api/opportunities', dataToSubmit);
+      await api.post('/api/opportunities', dataToSubmit);
       setMessage('Success! Opportunity Posted to the Discover page!');
       setTimeout(() => navigate('/organizer/dashboard'), 2000);
     } catch (err) {

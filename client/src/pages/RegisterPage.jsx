@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
@@ -32,7 +32,7 @@ function RegisterPage() {
 
     try {
       // Send the data to the API we just built!
-      const response = await axios.post('http://localhost:5000/api/auth/register', formData);
+      const response = await api.post('/api/auth/register', formData);
       
       // Save the user data and token globally
       login(response.data.user, response.data.token);

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import api from '../api';
 import OpportunityCard from '../components/OpportunityCard';
 
 import { Search, Filter, Map } from 'lucide-react';
@@ -24,7 +25,7 @@ function OpportunitiesPage() {
     const fetchOpportunities = async () => {
       try {
         // A. Fetch Local MongoDB Data
-        const dbRes = await axios.get('http://localhost:5000/api/opportunities');
+        const dbRes = await api.get('/api/opportunities');
         const dbData = dbRes.data.data.map(opp => ({
           ...opp,
           deadline: opp.deadline ? new Date(opp.deadline).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Rolling'

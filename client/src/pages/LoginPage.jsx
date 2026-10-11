@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
@@ -27,7 +27,7 @@ function LoginPage() {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', formData);
+      const response = await api.post('/api/auth/login', formData);
       
       // Save the user data and token globally
       login(response.data.user, response.data.token);

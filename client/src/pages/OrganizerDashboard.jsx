@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api';
 import { AuthContext } from '../context/AuthContext';
 import { PlusCircle, BarChart3, Users, Calendar } from 'lucide-react';
 
@@ -11,7 +11,7 @@ function OrganizerDashboard() {
   useEffect(() => {
     const fetchMyPosts = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/opportunities');
+        const response = await api.get('/api/opportunities');
         // Filter out only the posts made by this specific organizer!
         const filtered = response.data.data.filter(opp => opp.organizerName === user.name);
         setMyPosts(filtered);

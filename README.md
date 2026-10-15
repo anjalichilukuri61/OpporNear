@@ -6,7 +6,7 @@
 OpporNear is a full-stack student-focused web application. It solves the problem of scattered student opportunities by bringing hackathons, internships, scholarships, and workshops into one centralized platform.
 
 ## 2. Problem Statement
-Students frequently miss valuable opportunities because information is scattered across college websites, organization pages, WhatsApp groups, and social media. By the time they find an opportunity, the deadline has often passed.
+Students frequently miss valuable opportunities because information is scattered across  different college websites, organization pages, WhatsApp groups, and social media. By the time they find an opportunity, the deadline has often passed.
 
 ## 3. Proposed Solution
 > **Collect → Clean → Verify → Understand → Recommend**
